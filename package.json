@@ -1,7 +1,7 @@
 {
   "name": "jyotisha-premium",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": true,
-  "description": "Jyotisha — Panchanga, Rashi Phala & Premium Horoscope by Akshay Shenoy (Vercel)",
+  "type": "module",
   "engines": { "node": ">=18" }
 }
