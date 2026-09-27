@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Jyotisha · Owner Dashboard</title>
+<style>
+  :root { --bg:#0d0a1c; --card:#15102b; --line:rgba(247,244,239,0.1); --gold:#c9a84c; --gold2:#f0d898; --paper:#f7f4ef; --muted:rgba(247,244,239,0.55); }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--paper); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; padding:24px 16px 60px; }
+  .wrap { max-width:1000px; margin:0 auto; }
+  h1 { font-family:Georgia,serif; font-weight:400; color:var(--gold2); font-size:28px; margin-bottom:4px; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:22px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; margin-bottom:16px; }
+  input { width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line); background:rgba(255,255,255,0.04); color:var(--paper); font-size:15px; }
+  input:focus { outline:none; border-color:var(--gold); }
+  button, .btn { padding:11px 16px; border-radius:10px; border:1px solid rgba(201,168,76,0.45); background:rgba(201,168,76,0.14); color:var(--gold2); font-size:14px; cursor:pointer; text-decoration:none; display:inline-block; }
+  button:hover, .btn:hover { background:rgba(201,168,76,0.24); }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .row input { flex:1; min-width:200px; }
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; text-align:center; }
+  .stat b { display:block; font-size:30px; color:var(--gold2); font-weight:600; }
+  .stat span { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  .tbl { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:14px; min-width:640px; }
+  th, td { padding:10px 8px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; }
+  th { color:var(--gold); font-weight:500; font-size:12px; text-transform:uppercase; letter-spacing:1px; }
+  td a { color:var(--gold2); text-decoration:none; margin-right:8px; }
+  .err { color:#f2a5b4; font-size:14px; margin-top:10px; min-height:18px; }
+  code { display:block; background:rgba(255,255,255,0.05); border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12.5px; color:var(--gold2); word-break:break-all; margin:8px 0; }
+  .hint { font-size:13px; color:var(--muted); line-height:1.6; }
+  [hidden] { display:none !important; }
+  @media (max-width:560px) { .stats { grid-template-columns:1fr 1fr 1fr; } .stat b { font-size:22px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>✦ Jyotisha · Owner Dashboard</h1>
+  <div class="sub">Premium users who entered their mobile number (with consent)</div>
+
+  <div class="card" id="loginCard">
+    <div class="row">
+      <input type="password" id="key" placeholder="Enter your ADMIN_KEY" onkeydown="if(event.key==='Enter')load()"/>
+      <button onclick="load()">Open</button>
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div id="dash" hidden>
+    <div class="stats">
+      <div class="stat"><b id="sUsers">0</b><span>Unique users</span></div>
+      <div class="stat"><b id="sVisits">0</b><span>Total visits</span></div>
+      <div class="stat"><b id="sToday">0</b><span>New today</span></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="margin-bottom:12px">
+        <input id="q" placeholder="Search phone, city, language…" oninput="render()"/>
+        <button onclick="downloadCsv()">⬇ Download Excel (CSV)</button>
+        <button onclick="load()">↻ Refresh</button>
+        <button onclick="logout()">Log out</button>
+      </div>
+      <div class="tbl"><table>
+        <thead><tr><th>#</th><th>Phone</th><th>Language</th><th>City</th><th>First visit (IST)</th><th>Last visit (IST)</th><th>Visits</th></tr></thead>
+        <tbody id="tb"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <div class="hint"><b style="color:var(--gold2)">Auto-updating Google Sheet (no Apps Script):</b> paste this formula into cell A1 of any Google Sheet. It pulls the latest list automatically (Google refreshes it about every hour).</div>
+      <code id="formula"></code>
+      <button onclick="copyFormula(this)">Copy formula</button>
+      <div class="hint" style="margin-top:10px">⚠ The formula contains your admin key — keep that sheet private (Share → Restricted).</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let USERS = [];
+const $ = id => document.getElementById(id);
+const getKey = () => { try { return sessionStorage.getItem('jy_admin') || ''; } catch { return ''; } };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+
+async function load() {
+  const key = $('key').value.trim() || getKey();
+  if (!key) return;
+  $('err').textContent = '';
+  try {
+    const r = await fetch('/api/leads', { headers: { Authorization: 'Bearer ' + key }, cache: 'no-store' });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || 'Error ' + r.status);
+    try { sessionStorage.setItem('jy_admin', key); } catch {}
+    USERS = d.users || [];
+    $('sUsers').textContent = d.uniqueUsers; $('sVisits').textContent = d.totalVisits; $('sToday').textContent = d.newToday;
+    $('formula').textContent = `=IMPORTDATA("${location.origin}/api/leads?format=csv&key=${encodeURIComponent(key)}")`;
+    $('loginCard').hidden = true; $('dash').hidden = false;
+    render();
+  } catch (e) { $('err').textContent = e.message === 'Unauthorized' ? 'Wrong key.' : e.message; }
+}
+function render() {
+  const q = $('q').value.trim().toLowerCase();
+  const list = USERS.filter(u => !q || [u.phone, u.city, u.language].join(' ').toLowerCase().includes(q));
+  $('tb').innerHTML = list.map((u, i) => `<tr>
+    <td>${i + 1}</td>
+    <td>+91 ${esc(u.phone)} <a href="tel:+91${esc(u.phone)}" title="Call">📞</a><a href="https://wa.me/91${esc(u.phone)}" target="_blank" rel="noopener" title="WhatsApp">💬</a></td>
+    <td>${esc(u.language)}</td><td>${esc(u.city)}</td><td>${esc(u.first_visit_ist)}</td><td>${esc(u.last_visit_ist)}</td><td>${esc(u.visits)}</td>
+  </tr>`).join('') || '<tr><td colspan="7" style="color:var(--muted)">No users yet.</td></tr>';
+}
+async function downloadCsv() {
+  const r = await fetch('/api/leads?format=csv&download=1', { headers: { Authorization: 'Bearer ' + getKey() } });
+  const blob = await r.blob();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `jyotisha-users-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function copyFormula(btn) { navigator.clipboard.writeText($('formula').textContent).then(() => { btn.textContent = 'Copied ✓'; setTimeout(() => btn.textContent = 'Copy formula', 1500); }); }
+function logout() { try { sessionStorage.removeItem('jy_admin'); } catch {} USERS = []; $('key').value = ''; $('dash').hidden = true; $('loginCard').hidden = false; }
+if (getKey()) load();
+</script>
+</body>
+</html>
