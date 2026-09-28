@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Jyotisha Premium powered Vedic & Western astrology. Birth chart, horoscope, love, career, health readings in English, Kannada & Hindi, plus daily Panchanga."/>
+<meta name="description" content="Jyotisha Premium —powered Vedic & Western astrology. Birth chart, horoscope, love, career, health readings in English, Kannada & Hindi, plus daily Panchanga."/>
 <meta property="og:title" content="Jyotisha — Your Cosmic Blueprint"/>
 <meta property="og:description" content="Astrology readings — past life, present, future, love & career in English, Kannada & Hindi · Daily Panchanga"/>
 <title>Jyotisha ✦ Premium Astrology</title>
@@ -354,7 +354,11 @@ footer {
 .rs-note { font-size:13px; color:rgba(247,244,239,0.65); margin-top:8px; line-height:1.55; }
 .rs-hint { font-size:12.5px; color:rgba(247,244,239,0.45); margin-top:12px; }
 .rs-hint a { color:var(--gold2); cursor:pointer; }
-.cta-card { text-align:center; }
+.cta-card { text-align:center; background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(107,79,160,0.18)) !important; border-color:rgba(201,168,76,0.4) !important; }
+.cta-top { padding-top:0 !important; margin-top:-10px; }
+.cta-card .features-row { gap:6px !important; margin:0 0 18px !important; }
+.cta-card .feat-pill { padding:5px 10px !important; font-size:11.5px !important; gap:4px !important; }
+@media (max-width:600px) { .cta-card .feat-pill:nth-child(n+7) { display:none !important; } .cta-title { font-size:24px; } .cta-text { font-size:13px; margin-bottom:14px; } }
 .cta-title { font-family:var(--serif); font-size:28px; color:var(--gold2); margin-bottom:8px; }
 .cta-text { font-size:14px; color:rgba(247,244,239,0.65); line-height:1.6; margin-bottom:18px; }
 .cta-card .features-row { margin:0 0 20px; }
@@ -393,6 +397,15 @@ html[data-lang=kn] .pg-k, html[data-lang=kn] .pg-h, html[data-lang=kn] .sec-labe
 html[data-lang=hi] .pg-k, html[data-lang=hi] .pg-h, html[data-lang=hi] .sec-label, html[data-lang=hi] .r-label { letter-spacing:0; font-size:11.5px; }
 .pg-controls { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
 .pg-controls input[type=date] { color-scheme:dark; }
+.sug { position:absolute; left:0; right:0; top:100%; margin-top:4px; z-index:50; background:#1a1433; border:1px solid rgba(201,168,76,0.35); border-radius:12px; max-height:300px; overflow-y:auto; box-shadow:0 12px 30px rgba(0,0,0,0.45); }
+.sug[hidden] { display:none; }
+.sug-i { padding:10px 14px; cursor:pointer; border-bottom:1px solid rgba(247,244,239,0.06); }
+.sug-i:last-child { border-bottom:none; }
+.sug-i b { display:block; color:var(--gold2); font-weight:500; font-size:14px; }
+.sug-i span { display:block; font-size:12px; color:rgba(247,244,239,0.5); margin-top:2px; }
+.sug-i:hover, .sug-i.on { background:rgba(201,168,76,0.12); }
+.sug-empty { padding:10px 14px; font-size:13px; color:rgba(247,244,239,0.5); }
+.city-row { display:flex; gap:8px; } .city-row input { flex:1; min-width:0; } .loc-btn { padding:0 14px !important; font-size:16px !important; }
 .pg-nav { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:4px 0 18px; }
 .pg-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
 .pg-cell { background:rgba(255,255,255,0.03); border:1px solid rgba(247,244,239,0.08); border-radius:12px; padding:11px 14px; }
@@ -459,39 +472,8 @@ html[data-lang=hi] .pg-k, html[data-lang=hi] .pg-h, html[data-lang=hi] .sec-labe
     <p class="hero-sub" data-i18n="heroSub">Pick your rashi for today’s prediction, and check the full Panchanga for any date.</p>
   </div>
 
-  <!-- ── RASHI PHALA ── -->
-  <div class="form-section" id="rashi">
-    <div class="glass-card">
-      <div class="sec-label" data-i18n="rashiTitle">Today’s Rashi Phala</div>
-      <div class="rs-sub" id="rsSub"></div>
-      <div class="rs-grid" id="rsGrid"></div>
-      <div id="rsOut"></div>
-    </div>
-  </div>
-<!-- ── PANCHANGA ── -->
-<div class="form-section" id="panchanga">
-  <div class="glass-card">
-    <div class="sec-label" id="pgTitle">Daily Panchanga</div>
-    <div class="pg-controls">
-      <div class="field"><label id="pgDateL">Date</label><input type="date" id="pgDate" onchange="pgRender()"/></div>
-      <div class="field"><label id="pgCityL">City</label><input type="text" id="pgCity" value="Bengaluru" placeholder="e.g. Mysuru, Udupi" onchange="pgRender()"/></div>
-    </div>
-    <div class="pg-nav">
-      <button class="lp" id="pgPrev" onclick="pgShift(-1)">◀ Prev</button>
-      <button class="lp" id="pgToday" onclick="pgShift(0)">Today</button>
-      <button class="lp" id="pgNext" onclick="pgShift(1)">Next ▶</button>
-      <span style="flex:1"></span>
-      <button class="lp on" data-lang="en" onclick="setLang('en')">English</button>
-      <button class="lp" data-lang="kn" onclick="setLang('kn')">ಕನ್ನಡ</button>
-      <button class="lp" data-lang="hi" onclick="setLang('hi')">हिंदी</button>
-    </div>
-    <div id="pgOut"></div>
-  </div>
-</div>
-
-
   <!-- ── PREMIUM CTA ── -->
-  <div class="form-section">
+  <div class="form-section cta-top">
     <div class="glass-card cta-card">
       <div class="cta-title" data-i18n="ctaTitle">🔮 Premium Horoscope</div>
       <p class="cta-text" data-i18n="ctaText">Full birth chart, lagna, nakshatra, planets + 12 detailed readings: past life, love, career, health, yearly &amp; more.</p>
@@ -513,6 +495,38 @@ html[data-lang=hi] .pg-k, html[data-lang=hi] .pg-h, html[data-lang=hi] .sec-labe
       <button class="submit-btn" onclick="go('premium')" data-i18n="ctaBtn">Open Premium ✦</button>
     </div>
   </div>
+
+  <!-- ── RASHI PHALA ── -->
+  <div class="form-section" id="rashi">
+    <div class="glass-card">
+      <div class="sec-label" data-i18n="rashiTitle">Today’s Rashi Phala</div>
+      <div class="rs-sub" id="rsSub"></div>
+      <div class="rs-grid" id="rsGrid"></div>
+      <div id="rsOut"></div>
+    </div>
+  </div>
+<!-- ── PANCHANGA ── -->
+<div class="form-section" id="panchanga">
+  <div class="glass-card">
+    <div class="sec-label" id="pgTitle">Daily Panchanga</div>
+    <div class="pg-controls">
+      <div class="field"><label id="pgDateL">Date</label><input type="date" id="pgDate" onchange="pgRender()"/></div>
+      <div class="field"><label id="pgCityL">City</label><div class="city-row"><input type="text" id="pgCity" value="Bengaluru" placeholder="Any town, village or PIN code" onchange="pgCityChanged()" onkeydown="if(event.key==='Enter')this.blur()"/><button type="button" class="lp loc-btn" onclick="pgUseLocation()" title="Use my location">📍</button></div></div>
+    </div>
+    <div class="pg-nav">
+      <button class="lp" id="pgPrev" onclick="pgShift(-1)">◀ Prev</button>
+      <button class="lp" id="pgToday" onclick="pgShift(0)">Today</button>
+      <button class="lp" id="pgNext" onclick="pgShift(1)">Next ▶</button>
+      <span style="flex:1"></span>
+      <button class="lp on" data-lang="en" onclick="setLang('en')">English</button>
+      <button class="lp" data-lang="kn" onclick="setLang('kn')">ಕನ್ನಡ</button>
+      <button class="lp" data-lang="hi" onclick="setLang('hi')">हिंदी</button>
+    </div>
+    <div id="pgOut"></div>
+  </div>
+</div>
+
+
 </div>
 
 <!-- ═════════════ LOGIN (phone) ═════════════ -->
@@ -574,7 +588,7 @@ html[data-lang=hi] .pg-k, html[data-lang=hi] .pg-h, html[data-lang=hi] .sec-labe
     <div class="g2">
       <div class="field">
         <label>Birth city / place</label>
-        <input type="text" id="fPlace" placeholder="e.g. Bengaluru, Mumbai"/>
+        <input type="text" id="fPlace" placeholder="Any town, village or PIN code"/>
         <div class="field-hint">Used for accurate ascendant</div>
       </div>
       <div class="field"><label>Gender</label>
@@ -634,8 +648,8 @@ html[data-lang=hi] .pg-k, html[data-lang=hi] .pg-h, html[data-lang=hi] .sec-labe
 <!-- Footer -->
 <footer>
   <div class="footer-logo">✦ Jyotisha</div>
-  <div class="footer-by">Created &amp; authorised by <strong>Srinivasa Enterprises</strong></div>
-  <div class="footer-note">Astrologypowered readings blending Vedic &amp; Western astrology traditions.<br>For self-reflection and guidance only. Not a substitute for professional advice.</div>
+  <div class="footer-by">Created &amp; authorised by <strong>Akshay Shenoy</strong></div>
+  <div class="footer-note">Jyotisha powered readings blending Vedic &amp; Western astrology traditions.<br>For self-reflection and guidance only. Not a substitute for professional advice.</div>
   <div class="footer-links">
     <a href="#">Privacy</a>
     <a href="#">Terms</a>
@@ -843,24 +857,176 @@ const CITY_DB = {
   'indore':{ lat:22.72, lon:75.86 },'bhopal':{ lat:23.26, lon:77.41 },'varanasi':{ lat:25.32, lon:83.01 },
   'patna':{ lat:25.59, lon:85.14 },'chandigarh':{ lat:30.73, lon:76.78 },'bhubaneswar':{ lat:20.30, lon:85.82 },
   'guwahati':{ lat:26.14, lon:91.74 },'kanpur':{ lat:26.45, lon:80.33 },'agra':{ lat:27.18, lon:78.01 },
+  'sagara':{ lat:14.17, lon:75.03 },'sagar':{ lat:14.17, lon:75.03 },'bhadravati':{ lat:13.84, lon:75.70 },
+  'gadag':{ lat:15.43, lon:75.63 },'haveri':{ lat:14.79, lon:75.40 },'koppal':{ lat:15.35, lon:76.15 },
+  'yadgir':{ lat:16.77, lon:77.14 },'bagalkot':{ lat:16.18, lon:75.70 },'chamarajanagar':{ lat:11.92, lon:76.94 },
+  'nanjangud':{ lat:12.12, lon:76.68 },'ramanagara':{ lat:12.72, lon:77.28 },'channapatna':{ lat:12.65, lon:77.21 },
+  'chikkaballapur':{ lat:13.43, lon:77.73 },'kumta':{ lat:14.43, lon:74.42 },'honnavar':{ lat:14.28, lon:74.44 },
+  'moodbidri':{ lat:13.07, lon:74.99 },'karkala':{ lat:13.21, lon:74.99 },'bhatkal':{ lat:13.99, lon:74.56 },
   'default':{ lat:12.97, lon:77.59 }, // Bengaluru fallback
 };
 function findCity(place) {
-  const k = (place || '').trim().toLowerCase();
-  if (k) for (const [city, c] of Object.entries(CITY_DB)) if (city !== 'default' && k.includes(city)) return { ...c, name: city[0].toUpperCase() + city.slice(1), found: true };
+  const k = (place || '').trim().toLowerCase().split(',')[0].trim();
+  const title = c => c.replace(/\b\w/g, x => x.toUpperCase());
+  if (k && CITY_DB[k] && k !== 'default') return { ...CITY_DB[k], name: title(k), found: true };
+  // whole-word match only ("srirangapatna" must NOT match "patna")
+  if (k) for (const [city, c] of Object.entries(CITY_DB)) if (city !== 'default' && new RegExp(`(^|\\s)${city}(\\s|$)`).test(k)) return { ...c, name: title(city), found: true };
   return { ...CITY_DB.default, name: 'Bengaluru', found: !k };
 }
+/* ── Any Indian town/village via free Open-Meteo geocoding (no key), cached ── */
+const GEO_CACHE = (() => { try { return JSON.parse(localStorage.getItem('jy_geo') || '{}'); } catch { return {}; } })();
+async function geocode(place) {
+  const q = (place || '').trim();
+  if (!q) return null;
+  const local = findCity(q);
+  if (local.found && !q.includes(',')) return local; // "Town, State" → ask geocoder for that state
+  const key = q.toLowerCase();
+  if (GEO_CACHE[key]) return GEO_CACHE[key];
+  try {
+    const [town, region = ''] = q.split(',').map(x => x.trim().toLowerCase());
+    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(town)}&count=10&language=en&format=json&countryCode=IN`;
+    const get = async u => { const r = await fetch(u, { signal: AbortSignal.timeout ? AbortSignal.timeout(6000) : undefined }); return (await r.json()).results || []; };
+    let results = await get(url);
+    // Kannada spellings often add a final "a" (Sagara → Sagar) — also try without it
+    if (!region && !results.some(h => h.admin1 === 'Karnataka') && /a$/.test(town) && town.length > 4)
+      results = results.concat(await get(url.replace(encodeURIComponent(town), encodeURIComponent(town.slice(0, -1)))));
+    const d = { results };
+    // "Sagara, Odisha" → that state; otherwise prefer Karnataka, then bigger towns
+    const score = h => (region && (h.admin1 || '').toLowerCase().includes(region) ? 1e9 : 0)
+                     + (!region && h.admin1 === 'Karnataka' ? 1e8 : 0) + (h.population || 0);
+    const hit = (d.results || []).sort((a, b) => score(b) - score(a))[0];
+    let res = hit ? { lat: +hit.latitude.toFixed(3), lon: +hit.longitude.toFixed(3), name: [hit.name, hit.admin1].filter(Boolean).join(', '), found: true, ka: hit.admin1 === 'Karnataka' } : null;
+    // Also ask OpenStreetMap (villages, hamlets, PIN codes). Prefer: requested state → Karnataka → Open-Meteo → OSM
+    if (!res || (!region && !res.ka) || (region && !res.name.toLowerCase().includes(region))) {
+      const list = await searchPlaces(q, 10);
+      const osm = list.find(p => region && (p.sub || '').toLowerCase().includes(region))
+               || (!region && list.find(p => p.ka))
+               || (!res && list[0]);
+      if (osm) res = { lat: osm.lat, lon: osm.lon, name: osm.sub ? `${osm.name}, ${osm.sub}` : osm.name, found: true };
+    }
+    if (!res) return null;
+    delete res.ka;
+    GEO_CACHE[key] = res;
+    try { localStorage.setItem('jy_geo', JSON.stringify(GEO_CACHE)); } catch {}
+    return res;
+  } catch { return null; }
+}
+/* ── Every town / village / hamlet in India via OpenStreetMap (Photon), PIN codes via Nominatim ── */
+const IN_BBOX = '68.1,6.5,97.4,35.8';
+const titleCase = c => c.replace(/\b\w/g, x => x.toUpperCase());
+async function searchPlaces(q, limit = 7) {
+  q = (q || '').trim();
+  if (q.length < 2) return [];
+  const out = [], k = q.toLowerCase();
+  for (const [c, v] of Object.entries(CITY_DB)) if (c !== 'default' && c.startsWith(k)) out.push({ lat: v.lat, lon: v.lon, name: titleCase(c), sub: '' });
+  try {
+    if (/^\d{6}$/.test(q)) {
+      const r = await fetch(`https://nominatim.openstreetmap.org/search?postalcode=${q}&countrycodes=in&format=json&limit=1`);
+      for (const h of await r.json()) out.push({ lat: +(+h.lat).toFixed(3), lon: +(+h.lon).toFixed(3), name: `PIN ${q}`, sub: h.display_name.split(',').slice(1, -1).map(x => x.trim()).join(', ') });
+    } else {
+      const pu = `https://photon.komoot.io/api/?q=${encodeURIComponent(q.split(',')[0])}&limit=12&lang=en&bbox=${IN_BBOX}&osm_tag=place`;
+      let j = {};
+      for (let t = 0; t < 2 && !(j.features || []).length; t++) { try { j = await (await fetch(pu)).json(); } catch { j = {}; } }
+      for (const f of j.features || []) {
+        const p = f.properties || {};
+        if (p.countrycode && p.countrycode !== 'IN') continue;
+        if (['country', 'state', 'continent', 'island', 'islet', 'sea', 'ocean'].includes(p.osm_value)) continue;
+        out.push({ lat: +f.geometry.coordinates[1].toFixed(3), lon: +f.geometry.coordinates[0].toFixed(3), name: p.name, sub: [p.county || p.district, p.state].filter(Boolean).join(', '), ka: p.state === 'Karnataka' });
+      }
+      if (out.length === 0) { // last resort: Nominatim free-text
+        const r2 = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&countrycodes=in&format=json&limit=5`);
+        for (const h of await r2.json()) out.push({ lat: +(+h.lat).toFixed(3), lon: +(+h.lon).toFixed(3), name: h.name || q, sub: h.display_name.split(',').slice(1, -1).map(x => x.trim()).slice(-3).join(', ') });
+      }
+    }
+  } catch {}
+  const seen = new Set();
+  return out.filter(p => { const key = (p.name + '|' + p.sub).toLowerCase(); if (seen.has(key)) return false; seen.add(key); return true; })
+            .sort((a, b) => (b.ka ? 1 : 0) - (a.ka ? 1 : 0)).slice(0, limit);
+}
+function rememberPlace(label, p) {
+  GEO_CACHE[label.trim().toLowerCase()] = { lat: p.lat, lon: p.lon, name: label, found: true };
+  try { localStorage.setItem('jy_geo', JSON.stringify(GEO_CACHE)); } catch {}
+}
+function attachSuggest(input, onPick) {
+  const box = document.createElement('div');
+  box.className = 'sug'; box.hidden = true;
+  input.parentNode.style.position = 'relative';
+  input.parentNode.appendChild(box);
+  input.setAttribute('autocomplete', 'off');
+  let timer = null, items = [], active = -1, seq = 0;
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  const draw = () => {
+    box.innerHTML = items.length
+      ? items.map((p, i) => `<div class="sug-i ${i === active ? 'on' : ''}" data-i="${i}"><b>${esc(p.name)}</b>${p.sub ? `<span>${esc(p.sub)}</span>` : ''}</div>`).join('')
+      : `<div class="sug-empty">${ui('sugNone')}</div>`;
+    box.hidden = false;
+  };
+  const choose = i => {
+    const p = items[i]; if (!p) return;
+    const label = p.sub ? `${p.name}, ${p.sub}` : p.name;
+    input.value = label; rememberPlace(label, p);
+    box.hidden = true; items = []; onPick && onPick({ ...p, name: label, found: true });
+  };
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    const q = input.value.trim();
+    if (q.length < 2) { box.hidden = true; return; }
+    box.innerHTML = `<div class="sug-empty">${ui('sugSearching')}</div>`; box.hidden = false;
+    timer = setTimeout(async () => {
+      const my = ++seq; const r = await searchPlaces(q);
+      if (my !== seq) return; items = r; active = -1; draw();
+    }, 350);
+  });
+  input.addEventListener('keydown', e => {
+    if (box.hidden || !items.length) return;
+    if (e.key === 'ArrowDown') { active = Math.min(active + 1, items.length - 1); draw(); e.preventDefault(); }
+    else if (e.key === 'ArrowUp') { active = Math.max(active - 1, 0); draw(); e.preventDefault(); }
+    else if (e.key === 'Enter') { choose(active < 0 ? 0 : active); e.preventDefault(); e.stopPropagation(); }
+    else if (e.key === 'Escape') box.hidden = true;
+  });
+  box.addEventListener('mousedown', e => { const el = e.target.closest('.sug-i'); if (el) { e.preventDefault(); choose(+el.dataset.i); } });
+  input.addEventListener('blur', () => setTimeout(() => { box.hidden = true; }, 150));
+}
+
+let PG_PLACE = null; // resolved place for Panchanga / Rashi
+function pgPlace() {
+  const v = document.getElementById('pgCity').value.trim();
+  if (PG_PLACE && PG_PLACE.query === v) return PG_PLACE;
+  return findCity(v);
+}
+async function pgCityChanged() {
+  const el = document.getElementById('pgCity'), v = el.value.trim();
+  try { localStorage.setItem('jy_city', v); } catch {}
+  const local = findCity(v);
+  if ((local.found && !v.includes(',')) || !v) { PG_PLACE = { ...local, query: v }; pgRender(); return; }
+  document.getElementById('pgOut').style.opacity = '0.5';
+  const g = await geocode(v);
+  document.getElementById('pgOut').style.opacity = '';
+  if (el.value.trim() !== v) return; // user picked something else meanwhile
+  PG_PLACE = g ? { ...g, query: v } : { ...local, query: v };
+  pgRender();
+}
+function pgUseLocation() {
+  if (!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(p => {
+    const label = ui('myLoc');
+    document.getElementById('pgCity').value = label;
+    PG_PLACE = { lat: +p.coords.latitude.toFixed(3), lon: +p.coords.longitude.toFixed(3), name: label, found: true, query: label };
+    pgRender();
+  }, () => alert(ui('locDenied')), { timeout: 10000, maximumAge: 3600000 });
+}
+
 function getCoords(place) {
   if (!place) return CITY_DB.default;
   const k = place.trim().toLowerCase();
-  for (const [city, coords] of Object.entries(CITY_DB)) { if (k.includes(city)) return coords; }
-  return CITY_DB.default;
+  const f = findCity(k);
+  return f.found ? { lat: f.lat, lon: f.lon } : CITY_DB.default;
 }
 
 /* ═══════════════════════════════════════════
    GENERATE CHART
 ═══════════════════════════════════════════ */
-function generateChart() {
+async function generateChart() {
   const d     = parseInt(dayEl.value);
   const m     = parseInt(document.getElementById('fMonth').value);
   const y     = parseInt(yearEl.value);
@@ -868,7 +1034,7 @@ function generateChart() {
   const name  = document.getElementById('fName').value.trim() || 'Seeker';
   const place = document.getElementById('fPlace').value.trim();
 
-  const { lat, lon } = getCoords(place);
+  const { lat, lon } = (await geocode(place)) || getCoords(place);
   const result = AstroEngine.compute({ year:y, month:m, day:d, hour:h, minute:mi, lat, lon });
   const traits = AstroEngine.TRAITS[result.sunSign.name] || [];
 
@@ -1094,9 +1260,9 @@ function showCached(tab) {
    PANCHANGA
 ═══════════════════════════════════════════ */
 const PG_L = {
-  en:{ title:'Daily Panchanga', date:'Date', city:'City', prev:'◀ Prev', today:'Today', next:'Next ▶', vara:'Vara (day)', samv:'Samvatsara', ayana:'Ayana', ritu:'Ritu', masa:'Masa', paksha:'Paksha', tithi:'Tithi', nak:'Nakshatra', yoga:'Yoga', karana:'Karana', rise:'Sunrise', set:'Sunset', moonR:'Chandra Rashi', sunR:'Surya Rashi', rahu:'Rahu Kala', yama:'Yamaganda', gulika:'Gulika Kala', brahma:'Brahma Muhurta', abhijit:'Abhijit Muhurta', godhuli:'Godhuli Muhurta', pradosha:'Pradosha Kaala (Shiva puja)', good:'Auspicious · best for puja & devotion', bad:'Inauspicious · avoid starting new work', fest:'Festivals & vratas', up:'Upcoming festivals & vratas', none:'No major festival or vrata today', till:(n,t)=>`${n} till ${t}`, then:'then', pada:'Pada', shaka:'Shaka', vs:'Vikram Samvat', wedWarn:'⚠ Wednesday: overlaps Durmuhurta — traditionally avoided', unknownCity:'City not in list — showing Bengaluru', note:'Amanta (Karnataka) system · Lahiri ayanamsa · times in IST for the selected city. Tithi, nakshatra & yoga shown as at sunrise. For major festivals, confirm with your local temple panchanga.' },
-  kn:{ title:'ದೈನಂದಿನ ಪಂಚಾಂಗ', date:'ದಿನಾಂಕ', city:'ಊರು', prev:'◀ ಹಿಂದಿನ', today:'ಇಂದು', next:'ಮುಂದಿನ ▶', vara:'ವಾರ', samv:'ಸಂವತ್ಸರ', ayana:'ಅಯನ', ritu:'ಋತು', masa:'ಮಾಸ', paksha:'ಪಕ್ಷ', tithi:'ತಿಥಿ', nak:'ನಕ್ಷತ್ರ', yoga:'ಯೋಗ', karana:'ಕರಣ', rise:'ಸೂರ್ಯೋದಯ', set:'ಸೂರ್ಯಾಸ್ತ', moonR:'ಚಂದ್ರ ರಾಶಿ', sunR:'ಸೂರ್ಯ ರಾಶಿ', rahu:'ರಾಹುಕಾಲ', yama:'ಯಮಗಂಡ ಕಾಲ', gulika:'ಗುಳಿಕ ಕಾಲ', brahma:'ಬ್ರಹ್ಮ ಮುಹೂರ್ತ', abhijit:'ಅಭಿಜಿತ್ ಮುಹೂರ್ತ', godhuli:'ಗೋಧೂಳಿ ಮುಹೂರ್ತ', pradosha:'ಪ್ರದೋಷ ಕಾಲ (ಶಿವ ಪೂಜೆ)', good:'ಶುಭ ಸಮಯ · ಪೂಜೆ ಮತ್ತು ಭಕ್ತಿಗೆ ಉತ್ತಮ', bad:'ಅಶುಭ ಸಮಯ · ಹೊಸ ಕಾರ್ಯ ಆರಂಭಿಸಬೇಡಿ', fest:'ಹಬ್ಬ ಮತ್ತು ವ್ರತಗಳು', up:'ಮುಂಬರುವ ಹಬ್ಬ ಮತ್ತು ವ್ರತಗಳು', none:'ಇಂದು ಪ್ರಮುಖ ಹಬ್ಬ ಅಥವಾ ವ್ರತವಿಲ್ಲ', till:(n,t)=>`${t} ವರೆಗೆ ${n}`, then:'ನಂತರ', pada:'ಪಾದ', shaka:'ಶಕ', vs:'ವಿಕ್ರಮ ಸಂವತ್', wedWarn:'⚠ ಬುಧವಾರ: ದುರ್ಮುಹೂರ್ತದೊಂದಿಗೆ ಸೇರುತ್ತದೆ — ಸಂಪ್ರದಾಯದಂತೆ ತಪ್ಪಿಸಲಾಗುತ್ತದೆ', unknownCity:'ಊರು ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ — ಬೆಂಗಳೂರು ತೋರಿಸಲಾಗಿದೆ', note:'ಅಮಾಂತ (ಕರ್ನಾಟಕ) ಪದ್ಧತಿ · ಲಾಹಿರಿ ಅಯನಾಂಶ · ಆಯ್ದ ಊರಿಗೆ IST ಸಮಯ. ತಿಥಿ, ನಕ್ಷತ್ರ, ಯೋಗ ಸೂರ್ಯೋದಯದ ಸಮಯದಂತೆ. ಪ್ರಮುಖ ಹಬ್ಬಗಳಿಗೆ ಸ್ಥಳೀಯ ದೇವಾಲಯದ ಪಂಚಾಂಗ ನೋಡಿ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.' },
-  hi:{ title:'दैनिक पंचांग', date:'दिनांक', city:'शहर', prev:'◀ पिछला', today:'आज', next:'अगला ▶', vara:'वार', samv:'संवत्सर', ayana:'अयन', ritu:'ऋतु', masa:'मास', paksha:'पक्ष', tithi:'तिथि', nak:'नक्षत्र', yoga:'योग', karana:'करण', rise:'सूर्योदय', set:'सूर्यास्त', moonR:'चंद्र राशि', sunR:'सूर्य राशि', rahu:'राहुकाल', yama:'यमगंड', gulika:'गुलिक काल', brahma:'ब्रह्म मुहूर्त', abhijit:'अभिजित मुहूर्त', godhuli:'गोधूलि मुहूर्त', pradosha:'प्रदोष काल (शिव पूजा)', good:'शुभ समय · पूजा और भक्ति के लिए उत्तम', bad:'अशुभ समय · नया कार्य आरंभ न करें', fest:'त्योहार और व्रत', up:'आगामी त्योहार और व्रत', none:'आज कोई प्रमुख त्योहार या व्रत नहीं', till:(n,t)=>`${n} ${t} तक`, then:'फिर', pada:'पाद', shaka:'शक', vs:'विक्रम संवत', wedWarn:'⚠ बुधवार: दुर्मुहूर्त से टकराता है — परंपरा से वर्जित', unknownCity:'शहर सूची में नहीं — बेंगलुरु दिखाया गया', note:'अमांत (कर्नाटक) पद्धति · लाहिड़ी अयनांश · चुने गए शहर के लिए IST समय। तिथि, नक्षत्र व योग सूर्योदय के अनुसार। प्रमुख त्योहारों के लिए स्थानीय पंचांग से पुष्टि करें।' },
+  en:{ title:'Daily Panchanga', date:'Date', city:'City', prev:'◀ Prev', today:'Today', next:'Next ▶', vara:'Vara (day)', samv:'Samvatsara', ayana:'Ayana', ritu:'Ritu', masa:'Masa', paksha:'Paksha', tithi:'Tithi', nak:'Nakshatra', yoga:'Yoga', karana:'Karana', rise:'Sunrise', set:'Sunset', moonR:'Chandra Rashi', sunR:'Surya Rashi', rahu:'Rahu Kala', yama:'Yamaganda', gulika:'Gulika Kala', brahma:'Brahma Muhurta', abhijit:'Abhijit Muhurta', godhuli:'Godhuli Muhurta', pradosha:'Pradosha Kaala (Shiva puja)', good:'Auspicious · best for puja & devotion', bad:'Inauspicious · avoid starting new work', fest:'Festivals & vratas', up:'Upcoming festivals & vratas', none:'No major festival or vrata today', till:(n,t)=>`${n} till ${t}`, then:'then', pada:'Pada', shaka:'Shaka', vs:'Vikram Samvat', wedWarn:'⚠ Wednesday: overlaps Durmuhurta — traditionally avoided', unknownCity:'Place not found — showing Bengaluru. Pick from the suggestions, type a PIN code, or tap 📍', note:'Amanta (Karnataka) system · Lahiri ayanamsa · times in IST for the selected city. Tithi, nakshatra & yoga shown as at sunrise. For major festivals, confirm with your local temple panchanga.' },
+  kn:{ title:'ದೈನಂದಿನ ಪಂಚಾಂಗ', date:'ದಿನಾಂಕ', city:'ಊರು', prev:'◀ ಹಿಂದಿನ', today:'ಇಂದು', next:'ಮುಂದಿನ ▶', vara:'ವಾರ', samv:'ಸಂವತ್ಸರ', ayana:'ಅಯನ', ritu:'ಋತು', masa:'ಮಾಸ', paksha:'ಪಕ್ಷ', tithi:'ತಿಥಿ', nak:'ನಕ್ಷತ್ರ', yoga:'ಯೋಗ', karana:'ಕರಣ', rise:'ಸೂರ್ಯೋದಯ', set:'ಸೂರ್ಯಾಸ್ತ', moonR:'ಚಂದ್ರ ರಾಶಿ', sunR:'ಸೂರ್ಯ ರಾಶಿ', rahu:'ರಾಹುಕಾಲ', yama:'ಯಮಗಂಡ ಕಾಲ', gulika:'ಗುಳಿಕ ಕಾಲ', brahma:'ಬ್ರಹ್ಮ ಮುಹೂರ್ತ', abhijit:'ಅಭಿಜಿತ್ ಮುಹೂರ್ತ', godhuli:'ಗೋಧೂಳಿ ಮುಹೂರ್ತ', pradosha:'ಪ್ರದೋಷ ಕಾಲ (ಶಿವ ಪೂಜೆ)', good:'ಶುಭ ಸಮಯ · ಪೂಜೆ ಮತ್ತು ಭಕ್ತಿಗೆ ಉತ್ತಮ', bad:'ಅಶುಭ ಸಮಯ · ಹೊಸ ಕಾರ್ಯ ಆರಂಭಿಸಬೇಡಿ', fest:'ಹಬ್ಬ ಮತ್ತು ವ್ರತಗಳು', up:'ಮುಂಬರುವ ಹಬ್ಬ ಮತ್ತು ವ್ರತಗಳು', none:'ಇಂದು ಪ್ರಮುಖ ಹಬ್ಬ ಅಥವಾ ವ್ರತವಿಲ್ಲ', till:(n,t)=>`${t} ವರೆಗೆ ${n}`, then:'ನಂತರ', pada:'ಪಾದ', shaka:'ಶಕ', vs:'ವಿಕ್ರಮ ಸಂವತ್', wedWarn:'⚠ ಬುಧವಾರ: ದುರ್ಮುಹೂರ್ತದೊಂದಿಗೆ ಸೇರುತ್ತದೆ — ಸಂಪ್ರದಾಯದಂತೆ ತಪ್ಪಿಸಲಾಗುತ್ತದೆ', unknownCity:'ಊರು ಸಿಗಲಿಲ್ಲ — ಬೆಂಗಳೂರು ತೋರಿಸಲಾಗಿದೆ. ಸಲಹೆ ಪಟ್ಟಿಯಿಂದ ಆರಿಸಿ, PIN ಕೋಡ್ ಹಾಕಿ, ಅಥವಾ 📍 ಒತ್ತಿ', note:'ಅಮಾಂತ (ಕರ್ನಾಟಕ) ಪದ್ಧತಿ · ಲಾಹಿರಿ ಅಯನಾಂಶ · ಆಯ್ದ ಊರಿಗೆ IST ಸಮಯ. ತಿಥಿ, ನಕ್ಷತ್ರ, ಯೋಗ ಸೂರ್ಯೋದಯದ ಸಮಯದಂತೆ. ಪ್ರಮುಖ ಹಬ್ಬಗಳಿಗೆ ಸ್ಥಳೀಯ ದೇವಾಲಯದ ಪಂಚಾಂಗ ನೋಡಿ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.' },
+  hi:{ title:'दैनिक पंचांग', date:'दिनांक', city:'शहर', prev:'◀ पिछला', today:'आज', next:'अगला ▶', vara:'वार', samv:'संवत्सर', ayana:'अयन', ritu:'ऋतु', masa:'मास', paksha:'पक्ष', tithi:'तिथि', nak:'नक्षत्र', yoga:'योग', karana:'करण', rise:'सूर्योदय', set:'सूर्यास्त', moonR:'चंद्र राशि', sunR:'सूर्य राशि', rahu:'राहुकाल', yama:'यमगंड', gulika:'गुलिक काल', brahma:'ब्रह्म मुहूर्त', abhijit:'अभिजित मुहूर्त', godhuli:'गोधूलि मुहूर्त', pradosha:'प्रदोष काल (शिव पूजा)', good:'शुभ समय · पूजा और भक्ति के लिए उत्तम', bad:'अशुभ समय · नया कार्य आरंभ न करें', fest:'त्योहार और व्रत', up:'आगामी त्योहार और व्रत', none:'आज कोई प्रमुख त्योहार या व्रत नहीं', till:(n,t)=>`${n} ${t} तक`, then:'फिर', pada:'पाद', shaka:'शक', vs:'विक्रम संवत', wedWarn:'⚠ बुधवार: दुर्मुहूर्त से टकराता है — परंपरा से वर्जित', unknownCity:'स्थान नहीं मिला — बेंगलुरु दिखाया गया। सुझाव सूची से चुनें, PIN कोड डालें या 📍 दबाएँ', note:'अमांत (कर्नाटक) पद्धति · लाहिड़ी अयनांश · चुने गए शहर के लिए IST समय। तिथि, नक्षत्र व योग सूर्योदय के अनुसार। प्रमुख त्योहारों के लिए स्थानीय पंचांग से पुष्टि करें।' },
 };
 const PG_LOC = { en:'en-IN', kn:'kn-IN', hi:'hi-IN' };
 function pgTodayStr() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
@@ -1122,7 +1288,7 @@ function pgRender() {
   const dateEl = document.getElementById('pgDate');
   if (!dateEl.value) dateEl.value = pgTodayStr();
   const [y, m, d] = dateEl.value.split('-').map(Number);
-  const city = findCity(document.getElementById('pgCity').value);
+  const city = pgPlace();
   const p = Panchanga.compute(y, m, d, city.lat, city.lon);
 
   const jdDate = jd => new Date((jd - 2440587.5) * 86400000);
@@ -1188,9 +1354,9 @@ function pgRender() {
    UI TEXT (EN / KN / HI)
 ═══════════════════════════════════════════ */
 const UI = {
-  en:{ navPremium:'✦ Premium', heroEyebrow:'Free Daily Rashi Phala · Panchanga', heroH1:'Today’s <em>stars</em><br>for you', heroSub:'Pick your rashi for today’s prediction, and check the full Panchanga for any date.', rashiTitle:'Today’s Rashi Phala', rsSub:'Choose your rashi (Moon sign)', rsHint:'Don’t know your rashi?', rsHintLink:'Find it free in Premium →', ctaTitle:'🔮 Premium Horoscope', ctaText:'Full birth chart, lagna, nakshatra, planets + 12 detailed readings: past life, love, career, health, yearly & more.', ctaBtn:'Open Premium ✦', back:'← Home', change:'Change number', loginTitle:'Premium · Personal Horoscope', loginSub:'Enter your mobile number to open your full birth chart and 12 detailed readings.', loginLabel:'Mobile number', loginPh:'10-digit mobile number', consent:'I agree to save my number so Jyotisha can count users and share occasional updates. It is never shared or sold.', loginBtn:'Continue to Premium →', errPhone:'Please enter a valid 10-digit Indian mobile number.', errConsent:'Please tick the consent box to continue.', spTitle:'Liked your reading? 🙏', spText:'If you liked this page and want to help, you can contribute a small amount — pay as you wish. Every little bit helps keep Jyotisha free for everyone.', spScan:'Scan with any UPI app', spUpi:'UPI ID', spCopy:'Copy', spCopied:'Copied ✓', spPay:'Pay with UPI app', spLater:'Maybe later', supBtn:'Support Jyotisha 🙏' },
-  kn:{ navPremium:'✦ ಪ್ರೀಮಿಯಂ', heroEyebrow:'ಉಚಿತ ದೈನಂದಿನ ರಾಶಿ ಫಲ · ಪಂಚಾಂಗ', heroH1:'ಇಂದಿನ <em>ನಕ್ಷತ್ರ</em><br>ನಿಮಗಾಗಿ', heroSub:'ಇಂದಿನ ಫಲಕ್ಕಾಗಿ ನಿಮ್ಮ ರಾಶಿ ಆಯ್ಕೆಮಾಡಿ, ಮತ್ತು ಯಾವುದೇ ದಿನದ ಪೂರ್ಣ ಪಂಚಾಂಗ ನೋಡಿ.', rashiTitle:'ಇಂದಿನ ರಾಶಿ ಫಲ', rsSub:'ನಿಮ್ಮ ರಾಶಿ (ಚಂದ್ರ ರಾಶಿ) ಆಯ್ಕೆಮಾಡಿ', rsHint:'ನಿಮ್ಮ ರಾಶಿ ಗೊತ್ತಿಲ್ಲವೇ?', rsHintLink:'ಪ್ರೀಮಿಯಂನಲ್ಲಿ ಉಚಿತವಾಗಿ ತಿಳಿಯಿರಿ →', ctaTitle:'🔮 ಪ್ರೀಮಿಯಂ ಜಾತಕ', ctaText:'ಸಂಪೂರ್ಣ ಜನ್ಮ ಜಾತಕ, ಲಗ್ನ, ನಕ್ಷತ್ರ, ಗ್ರಹಗಳು + 12 ವಿವರವಾದ ಫಲಗಳು: ಹಿಂದಿನ ಜನ್ಮ, ಪ್ರೀತಿ, ವೃತ್ತಿ, ಆರೋಗ್ಯ, ವಾರ್ಷಿಕ ಮತ್ತು ಇನ್ನಷ್ಟು.', ctaBtn:'ಪ್ರೀಮಿಯಂ ತೆರೆಯಿರಿ ✦', back:'← ಮುಖಪುಟ', change:'ಸಂಖ್ಯೆ ಬದಲಿಸಿ', loginTitle:'ಪ್ರೀಮಿಯಂ · ವೈಯಕ್ತಿಕ ಜಾತಕ', loginSub:'ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಜನ್ಮ ಜಾತಕ ಮತ್ತು 12 ವಿವರವಾದ ಫಲಗಳನ್ನು ನೋಡಲು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.', loginLabel:'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ', loginPh:'10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ', consent:'ಬಳಕೆದಾರರ ಸಂಖ್ಯೆ ತಿಳಿಯಲು ಮತ್ತು ಸಾಂದರ್ಭಿಕ ಮಾಹಿತಿ ಕಳುಹಿಸಲು ನನ್ನ ಸಂಖ್ಯೆಯನ್ನು ಉಳಿಸಲು ನಾನು ಒಪ್ಪುತ್ತೇನೆ. ಇದನ್ನು ಯಾರೊಂದಿಗೂ ಹಂಚಿಕೊಳ್ಳುವುದಿಲ್ಲ ಅಥವಾ ಮಾರುವುದಿಲ್ಲ.', loginBtn:'ಪ್ರೀಮಿಯಂಗೆ ಮುಂದುವರಿಯಿರಿ →', errPhone:'ದಯವಿಟ್ಟು ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.', errConsent:'ಮುಂದುವರಿಯಲು ಒಪ್ಪಿಗೆ ಗುರುತು ಹಾಕಿ.', spTitle:'ನಿಮ್ಮ ಫಲ ಇಷ್ಟವಾಯಿತೇ? 🙏', spText:'ಈ ಪುಟ ನಿಮಗೆ ಇಷ್ಟವಾಗಿದ್ದರೆ ಮತ್ತು ಸಹಾಯ ಮಾಡಲು ಬಯಸಿದರೆ, ನಿಮ್ಮ ಇಚ್ಛೆಯಂತೆ ಸಣ್ಣ ಮೊತ್ತವನ್ನು ನೀಡಬಹುದು. ನಿಮ್ಮ ಸಣ್ಣ ಸಹಾಯ ಜ್ಯೋತಿಷವನ್ನು ಎಲ್ಲರಿಗೂ ಉಚಿತವಾಗಿಡಲು ನೆರವಾಗುತ್ತದೆ.', spScan:'ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಿಂದ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ', spUpi:'UPI ಐಡಿ', spCopy:'ನಕಲಿಸಿ', spCopied:'ನಕಲಿಸಲಾಗಿದೆ ✓', spPay:'UPI ಆ್ಯಪ್ ಮೂಲಕ ಪಾವತಿಸಿ', spLater:'ನಂತರ', supBtn:'ಜ್ಯೋತಿಷಕ್ಕೆ ಬೆಂಬಲ ನೀಡಿ 🙏' },
-  hi:{ navPremium:'✦ प्रीमियम', heroEyebrow:'मुफ़्त दैनिक राशिफल · पंचांग', heroH1:'आज के <em>सितारे</em><br>आपके लिए', heroSub:'आज के फल के लिए अपनी राशि चुनें, और किसी भी दिन का पूरा पंचांग देखें।', rashiTitle:'आज का राशिफल', rsSub:'अपनी राशि (चंद्र राशि) चुनें', rsHint:'अपनी राशि नहीं पता?', rsHintLink:'प्रीमियम में मुफ़्त जानें →', ctaTitle:'🔮 प्रीमियम कुंडली', ctaText:'पूरी जन्म कुंडली, लग्न, नक्षत्र, ग्रह + 12 विस्तृत फल: पूर्व जन्म, प्रेम, करियर, स्वास्थ्य, वार्षिक और भी बहुत कुछ।', ctaBtn:'प्रीमियम खोलें ✦', back:'← होम', change:'नंबर बदलें', loginTitle:'प्रीमियम · व्यक्तिगत कुंडली', loginSub:'अपनी पूरी जन्म कुंडली और 12 विस्तृत फल देखने के लिए अपना मोबाइल नंबर दर्ज करें।', loginLabel:'मोबाइल नंबर', loginPh:'10 अंकों का मोबाइल नंबर', consent:'मैं सहमत हूँ कि उपयोगकर्ताओं की गिनती और कभी-कभी जानकारी भेजने के लिए मेरा नंबर सहेजा जाए। इसे किसी से साझा या बेचा नहीं जाएगा।', loginBtn:'प्रीमियम पर जाएं →', errPhone:'कृपया सही 10 अंकों का भारतीय मोबाइल नंबर दर्ज करें।', errConsent:'आगे बढ़ने के लिए सहमति पर टिक करें।', spTitle:'आपको रीडिंग पसंद आई? 🙏', spText:'अगर आपको यह पेज पसंद आया और आप मदद करना चाहते हैं, तो अपनी इच्छा से कोई छोटी राशि दे सकते हैं। आपकी छोटी मदद ज्योतिष को सबके लिए मुफ़्त रखने में सहायक है।', spScan:'किसी भी UPI ऐप से स्कैन करें', spUpi:'UPI आईडी', spCopy:'कॉपी करें', spCopied:'कॉपी हो गया ✓', spPay:'UPI ऐप से भुगतान करें', spLater:'बाद में', supBtn:'ज्योतिष को सहयोग दें 🙏' },
+  en:{ navPremium:'✦ Premium', heroEyebrow:'Free Daily Rashi Phala · Panchanga', heroH1:'Today’s <em>stars</em><br>for you', heroSub:'Pick your rashi for today’s prediction, and check the full Panchanga for any date.', rashiTitle:'Today’s Rashi Phala', rsSub:'Choose your rashi (Moon sign)', rsHint:'Don’t know your rashi?', rsHintLink:'Find it free in Premium →', ctaTitle:'🔮 Premium Horoscope', ctaText:'Full birth chart, lagna, nakshatra, planets + 12 detailed readings: past life, love, career, health, yearly & more.', ctaBtn:'Open Premium ✦', back:'← Home', change:'Change number', loginTitle:'Premium · Personal Horoscope', loginSub:'Enter your mobile number to open your full birth chart and 12 detailed readings.', loginLabel:'Mobile number', loginPh:'10-digit mobile number', consent:'I agree to save my number so Jyotisha can count users and share occasional updates. It is never shared or sold.', loginBtn:'Continue to Premium →', errPhone:'Please enter a valid 10-digit Indian mobile number.', errConsent:'Please tick the consent box to continue.', spTitle:'Liked your reading? 🙏', spText:'If you liked this page and want to help, you can contribute a small amount — pay as you wish. Every little bit helps keep Jyotisha free for everyone.', spScan:'Scan with any UPI app', spUpi:'UPI ID', spCopy:'Copy', spCopied:'Copied ✓', spPay:'Pay with UPI app', spLater:'Maybe later', supBtn:'Support Jyotisha 🙏', sugSearching:'Searching…', sugNone:'No match — try another spelling or a PIN code', myLoc:'My location', locDenied:'Location permission denied. Please type your town name.' },
+  kn:{ navPremium:'✦ ಪ್ರೀಮಿಯಂ', heroEyebrow:'ಉಚಿತ ದೈನಂದಿನ ರಾಶಿ ಫಲ · ಪಂಚಾಂಗ', heroH1:'ಇಂದಿನ <em>ನಕ್ಷತ್ರ</em><br>ನಿಮಗಾಗಿ', heroSub:'ಇಂದಿನ ಫಲಕ್ಕಾಗಿ ನಿಮ್ಮ ರಾಶಿ ಆಯ್ಕೆಮಾಡಿ, ಮತ್ತು ಯಾವುದೇ ದಿನದ ಪೂರ್ಣ ಪಂಚಾಂಗ ನೋಡಿ.', rashiTitle:'ಇಂದಿನ ರಾಶಿ ಫಲ', rsSub:'ನಿಮ್ಮ ರಾಶಿ (ಚಂದ್ರ ರಾಶಿ) ಆಯ್ಕೆಮಾಡಿ', rsHint:'ನಿಮ್ಮ ರಾಶಿ ಗೊತ್ತಿಲ್ಲವೇ?', rsHintLink:'ಪ್ರೀಮಿಯಂನಲ್ಲಿ ಉಚಿತವಾಗಿ ತಿಳಿಯಿರಿ →', ctaTitle:'🔮 ಪ್ರೀಮಿಯಂ ಜಾತಕ', ctaText:'ಸಂಪೂರ್ಣ ಜನ್ಮ ಜಾತಕ, ಲಗ್ನ, ನಕ್ಷತ್ರ, ಗ್ರಹಗಳು + 12 ವಿವರವಾದ ಫಲಗಳು: ಹಿಂದಿನ ಜನ್ಮ, ಪ್ರೀತಿ, ವೃತ್ತಿ, ಆರೋಗ್ಯ, ವಾರ್ಷಿಕ ಮತ್ತು ಇನ್ನಷ್ಟು.', ctaBtn:'ಪ್ರೀಮಿಯಂ ತೆರೆಯಿರಿ ✦', back:'← ಮುಖಪುಟ', change:'ಸಂಖ್ಯೆ ಬದಲಿಸಿ', loginTitle:'ಪ್ರೀಮಿಯಂ · ವೈಯಕ್ತಿಕ ಜಾತಕ', loginSub:'ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಜನ್ಮ ಜಾತಕ ಮತ್ತು 12 ವಿವರವಾದ ಫಲಗಳನ್ನು ನೋಡಲು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.', loginLabel:'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ', loginPh:'10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ', consent:'ಬಳಕೆದಾರರ ಸಂಖ್ಯೆ ತಿಳಿಯಲು ಮತ್ತು ಸಾಂದರ್ಭಿಕ ಮಾಹಿತಿ ಕಳುಹಿಸಲು ನನ್ನ ಸಂಖ್ಯೆಯನ್ನು ಉಳಿಸಲು ನಾನು ಒಪ್ಪುತ್ತೇನೆ. ಇದನ್ನು ಯಾರೊಂದಿಗೂ ಹಂಚಿಕೊಳ್ಳುವುದಿಲ್ಲ ಅಥವಾ ಮಾರುವುದಿಲ್ಲ.', loginBtn:'ಪ್ರೀಮಿಯಂಗೆ ಮುಂದುವರಿಯಿರಿ →', errPhone:'ದಯವಿಟ್ಟು ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.', errConsent:'ಮುಂದುವರಿಯಲು ಒಪ್ಪಿಗೆ ಗುರುತು ಹಾಕಿ.', spTitle:'ನಿಮ್ಮ ಫಲ ಇಷ್ಟವಾಯಿತೇ? 🙏', spText:'ಈ ಪುಟ ನಿಮಗೆ ಇಷ್ಟವಾಗಿದ್ದರೆ ಮತ್ತು ಸಹಾಯ ಮಾಡಲು ಬಯಸಿದರೆ, ನಿಮ್ಮ ಇಚ್ಛೆಯಂತೆ ಸಣ್ಣ ಮೊತ್ತವನ್ನು ನೀಡಬಹುದು. ನಿಮ್ಮ ಸಣ್ಣ ಸಹಾಯ ಜ್ಯೋತಿಷವನ್ನು ಎಲ್ಲರಿಗೂ ಉಚಿತವಾಗಿಡಲು ನೆರವಾಗುತ್ತದೆ.', spScan:'ಯಾವುದೇ UPI ಆ್ಯಪ್‌ನಿಂದ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ', spUpi:'UPI ಐಡಿ', spCopy:'ನಕಲಿಸಿ', spCopied:'ನಕಲಿಸಲಾಗಿದೆ ✓', spPay:'UPI ಆ್ಯಪ್ ಮೂಲಕ ಪಾವತಿಸಿ', spLater:'ನಂತರ', supBtn:'ಜ್ಯೋತಿಷಕ್ಕೆ ಬೆಂಬಲ ನೀಡಿ 🙏', sugSearching:'ಹುಡುಕಲಾಗುತ್ತಿದೆ…', sugNone:'ಸಿಗಲಿಲ್ಲ — ಬೇರೆ ಸ್ಪೆಲ್ಲಿಂಗ್ ಅಥವಾ PIN ಕೋಡ್ ಹಾಕಿ', myLoc:'ನನ್ನ ಸ್ಥಳ', locDenied:'ಸ್ಥಳ ಅನುಮತಿ ನಿರಾಕರಿಸಲಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಊರಿನ ಹೆಸರು ಟೈಪ್ ಮಾಡಿ.' },
+  hi:{ navPremium:'✦ प्रीमियम', heroEyebrow:'मुफ़्त दैनिक राशिफल · पंचांग', heroH1:'आज के <em>सितारे</em><br>आपके लिए', heroSub:'आज के फल के लिए अपनी राशि चुनें, और किसी भी दिन का पूरा पंचांग देखें।', rashiTitle:'आज का राशिफल', rsSub:'अपनी राशि (चंद्र राशि) चुनें', rsHint:'अपनी राशि नहीं पता?', rsHintLink:'प्रीमियम में मुफ़्त जानें →', ctaTitle:'🔮 प्रीमियम कुंडली', ctaText:'पूरी जन्म कुंडली, लग्न, नक्षत्र, ग्रह + 12 विस्तृत फल: पूर्व जन्म, प्रेम, करियर, स्वास्थ्य, वार्षिक और भी बहुत कुछ।', ctaBtn:'प्रीमियम खोलें ✦', back:'← होम', change:'नंबर बदलें', loginTitle:'प्रीमियम · व्यक्तिगत कुंडली', loginSub:'अपनी पूरी जन्म कुंडली और 12 विस्तृत फल देखने के लिए अपना मोबाइल नंबर दर्ज करें।', loginLabel:'मोबाइल नंबर', loginPh:'10 अंकों का मोबाइल नंबर', consent:'मैं सहमत हूँ कि उपयोगकर्ताओं की गिनती और कभी-कभी जानकारी भेजने के लिए मेरा नंबर सहेजा जाए। इसे किसी से साझा या बेचा नहीं जाएगा।', loginBtn:'प्रीमियम पर जाएं →', errPhone:'कृपया सही 10 अंकों का भारतीय मोबाइल नंबर दर्ज करें।', errConsent:'आगे बढ़ने के लिए सहमति पर टिक करें।', spTitle:'आपको रीडिंग पसंद आई? 🙏', spText:'अगर आपको यह पेज पसंद आया और आप मदद करना चाहते हैं, तो अपनी इच्छा से कोई छोटी राशि दे सकते हैं। आपकी छोटी मदद ज्योतिष को सबके लिए मुफ़्त रखने में सहायक है।', spScan:'किसी भी UPI ऐप से स्कैन करें', spUpi:'UPI आईडी', spCopy:'कॉपी करें', spCopied:'कॉपी हो गया ✓', spPay:'UPI ऐप से भुगतान करें', spLater:'बाद में', supBtn:'ज्योतिष को सहयोग दें 🙏', sugSearching:'खोज रहे हैं…', sugNone:'नहीं मिला — दूसरी वर्तनी या PIN कोड डालें', myLoc:'मेरा स्थान', locDenied:'स्थान की अनुमति नहीं मिली। कृपया अपने शहर का नाम लिखें।' },
 };
 const ui = k => (UI[LANG] || UI.en)[k] ?? UI.en[k];
 function applyI18n() {
@@ -1243,7 +1409,7 @@ function rsRender() {
   if (rsSel === null) { out.innerHTML = `<div class="rs-hint">${ui('rsHint')} <a onclick="go('premium')">${ui('rsHintLink')}</a></div>`; return; }
   const dv = document.getElementById('pgDate').value || pgTodayStr();
   const [y, m, d] = dv.split('-').map(Number);
-  const c = findCity(document.getElementById('pgCity').value);
+  const c = pgPlace();
   const pc = Panchanga.compute(y, m, d, c.lat, c.lon);
   const r = RashiDaily.forDate(rsSel, y, m, d, pc.sunrise, pc.nextSunrise, L);
   const t = r.t;
@@ -1297,6 +1463,16 @@ function watchReadingEnd() {
 
 document.getElementById('pgDate').value = pgTodayStr();
 pgRender();
+(() => {
+  attachSuggest(document.getElementById('pgCity'), p => {
+    const v = document.getElementById('pgCity').value.trim();
+    try { localStorage.setItem('jy_city', v); } catch {}
+    PG_PLACE = { ...p, query: v }; pgRender();
+  });
+  attachSuggest(document.getElementById('fPlace'));
+  let saved = null; try { saved = localStorage.getItem('jy_city'); } catch {}
+  if (saved && saved !== ui('myLoc')) { document.getElementById('pgCity').value = saved; pgCityChanged(); }
+})();
 applyI18n();
 go(location.hash === '#premium' || location.hash === '#login' ? 'premium' : 'home', false);
 </script>
